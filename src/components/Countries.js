@@ -6,7 +6,10 @@ import Card from './Card';
 const Countries = () => {
     const [data, setData] = useState([])
     const [sortedData, setSortedData] = useState([]);
-    const [playOnce, setPlayOnce] = useState(true)
+    const [playOnce, setPlayOnce] = useState(true);
+    const [rangeValue, setRangeValue] = useState(40);
+    const [selectedRadio, setselectedRadio] = useState('')
+    const radio = ['Africa', 'America','Asia','Europe',"Oceania"]
 
 
 
@@ -29,13 +32,13 @@ const Countries = () => {
                 const sortedArray = countryObj.sort((a,b) =>{
                     return b.population - a.population
                 });
-                sortedArray.length = 30;
+                sortedArray.length = rangeValue;
                 setSortedData(sortedArray)
                 console.log(sortedArray);
             };
             sortedCountry();
 
-            }, [data])
+            }, [data, rangeValue])
 
     
 
@@ -43,8 +46,29 @@ const Countries = () => {
 
     return (
         <div className="countries">
+            <div className="sort-container">
+                <input type="range" min="1" max ="250" value={rangeValue} onChange={(e) => setRangeValue(e.target.value)}/>
+            <ul>
+                {radio.map((radio) =>{
+                    return(
+                        <li key={radio}> 
+                        <input type="radio" value={radio} id={radio}
+                        checked={radio === selectedRadio} onChange={(e) => setselectedRadio(e.target.value)}/>
+                        <label htmlFor={radio}>{radio}</label>
+                        </li>
+                    )
+                })}
+            </ul>
+            </div>
+            <div className="cancel">
+                {selectedRadio && <h5 onClick={() => setselectedRadio('')}>
+                    Annuler la recherche</h5>}
+                
+            </div>
             <ul className="countries-list">
-                {sortedData.map((country) => (
+                {sortedData
+                .filter((country) => country.region.includes(selectedRadio))
+                .map((country) => (
                     <Card country={country} key={country.name} />
                 ))}
             </ul>
