@@ -1,13 +1,14 @@
+import { render } from '@testing-library/react';
 import React from 'react';
-import Logo from '../components/Logo';
-import Navigation from '../components/Navigation';
 
-const About = () => {
-    return (
-        <div>
-            
-            </div>
-    );
+const About = (props) => {
+    
+
+    class bonjour exports React.Component{
+        render(
+    }
+
+
 };
 
 export default About;
